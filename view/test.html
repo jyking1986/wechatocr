@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+        document.domain = "qq.com";
+        var _wxao = window._wxao || {};
+        _wxao.begin = (+new Date());
+    </script>
+	<script type="text/javascript">
+	function viewProfile() {
+		alert(WeixinJSBridge);
+		alert(WeixinJSBridge.invoke);
+		typeof WeixinJSBridge != "undefined" && WeixinJSBridge.invoke && WeixinJSBridge.invoke("profile", {
+			username: "gh_e6d917881073",
+			scene: "57"
+		});
+	}
+	</script>
+</head>
+<body>
+	<a href="javascript:viewProfile();" id="post-user" class="activity-meta">
+		<span class="text-ellipsis">陈冠</span><i class="icon_link_arrow"></i>
+	</a>
+
+</body>
+</html>
