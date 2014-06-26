@@ -156,7 +156,7 @@
 		
 		$(".selectButton").click(function(){
 			hideConfirmBox();
-			//todo: make ajax call to post the image location to server to corp
+			scanSelectedRegion();
 		});
 
 		$(".moduleMask").click(function(){
@@ -216,13 +216,14 @@
 		$(".moduleMask").css("display","none");
 	}
 
-	function queryParameter(key) {
-        var match;
 
-        key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&");
-        match = location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
-        return match && decodeURIComponent(match[1].replace(/\+/g, " "));
-    }
+	function queryParameter(key) {
+		var match;
+
+		key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&");
+		match = location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
+		return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+	}
 
 	function pinch(tracks){
 		if(tracks.length >=4){
@@ -247,6 +248,26 @@
 		var deltaY=after.pageY-before.pageY;
 		console.log(deltaX+", "+deltaY);
 		return Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+	}
+
+
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		WeixinJSBridge.call('hideToolbar');
+		WeixinJSBridge.call('hideOptionMenu');
+	});
+
+	function scanSelectedRegion(){
+		var id=queryParameter("id");
+		var x1=(mask.center.x-mask.width/2)/imageContainer.width;
+		var x2=(mask.center.x+mask.width/2)/imageContainer.width;
+		var y1=(mask.center.y-mask.height()/2)/imageContainer.height;
+		var y2=(mask.center.y+mask.height()/2)/imageContainer.height;
+		var url="http://receiptocr.sinaapp.com/src/corpimage.php?id="+id+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2;
+
+		$.get(url).done(function (data) {
+            //alert(data);
+            //todo: call ocr service api with data(image url) and id(image scan id)
+        });
 	}
 
 
